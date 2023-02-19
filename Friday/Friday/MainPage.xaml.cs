@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,9 +14,23 @@ using Xamarin.Forms;
 
 namespace Friday
 {
-    public partial class MainPage : ContentPage
+    public partial class MainPage : ContentPage, INotifyPropertyChanged
     {
-        private LineSpectrum _lineSpectrum;
+        #region Properties
+
+        LineSpectrum _lineSpectrum;
+
+        public LineSpectrum LineSpectrum
+        {
+            get => _lineSpectrum;
+            set
+            {
+                _lineSpectrum = value;
+                RaisePropertyChanged("LineSpectrum");
+            }
+        }
+
+        #endregion
 
         private IAudioProvider _audioProvider;
 
@@ -27,11 +42,19 @@ namespace Friday
 
             _audioProvider = new BassAudioPlayer();
 
-            Device.StartTimer(TimeSpan.FromSeconds(1f / 60), () =>
+            //linespectrum and voiceprint3dspectrum used for rendering some fft data
+            //in oder to get some fft data, set the previously created spectrumprovider 
+            LineSpectrum = new LineSpectrum(fftSize)
             {
-                canvasView.InvalidateSurface();
-                return true;
-            });
+                SpectrumProvider = _audioProvider,
+                UseAverage = true,
+                BarCount = 200,
+                BarSpacing = 1,
+                IsXLogScale = false,
+                ScalingStrategy = ScalingStrategy.Sqrt,
+                MinimumFrequency = 20,
+                MaximumFrequency = 20000
+            };
         }
 
         private async void Button_Clicked(object sender, EventArgs e)
@@ -116,29 +139,14 @@ namespace Friday
                 _audioProvider.Stop();
 
             await _audioProvider.Play();
-
-            //linespectrum and voiceprint3dspectrum used for rendering some fft data
-            //in oder to get some fft data, set the previously created spectrumprovider 
-            _lineSpectrum = new LineSpectrum(fftSize)
-            {
-                SpectrumProvider = _audioProvider,
-                UseAverage = true,
-                BarCount = 200,
-                BarSpacing = 1,
-                IsXLogScale = false,
-                ScalingStrategy = ScalingStrategy.Sqrt,
-                MinimumFrequency = 20,
-                MaximumFrequency = 20000
-            };
         }
 
-        private void canvasView_PaintSurface(object sender, SKPaintSurfaceEventArgs e)
+        public new event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChanged(string propertyName)
         {
-            if (_lineSpectrum != null && _audioProvider.IsPlaying)
-            {
-                var size = new Size(e.Info.Width, e.Info.Height);
-                _lineSpectrum.CreateSpectrumLine(e.Surface, size);
-            }
+            if (PropertyChanged != null && !String.IsNullOrEmpty(propertyName))
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

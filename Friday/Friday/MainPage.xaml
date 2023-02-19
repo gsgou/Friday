@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
-             xmlns:local="clr-namespace:Friday"
-             x:Class="Friday.MainPage">
+             xmlns:spectrum="clr-namespace:Friday.Spectrum"
+             x:Class="Friday.MainPage"
+             x:Name="RootPage">
     <ContentPage.Padding>
         <OnPlatform x:TypeArguments="Thickness">
             <On Platform="iOS"
@@ -12,7 +12,6 @@
     </ContentPage.Padding>
 
     <Grid>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="80" />
             <RowDefinition Height="80" />
@@ -28,12 +27,12 @@
                 Grid.Row="1"
                 Clicked="Button_Clicked" />
 
-        <skia:SKCanvasView x:Name="canvasView"
-                           Grid.Row="2"
-                           HeightRequest="500"
-                           VerticalOptions="CenterAndExpand"
-                           Margin="10,20"
-                           PaintSurface="canvasView_PaintSurface" />
+        <spectrum:LineSpectrumView
+            LineSpectrum="{Binding Source={x:Reference RootPage}, Path=LineSpectrum}"
+            Grid.Row="2"
+            HeightRequest="500"
+            VerticalOptions="CenterAndExpand"
+            Margin="10,20" />
     </Grid>
 
 </ContentPage>

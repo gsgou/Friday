@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{A8D8C5A9-8C95-45FF-905A-EFE9CF3FD473}</ProjectGuid>
+    <ProjectGuid>{E71248CC-60F6-44B0-99A6-96AD8475C49A}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
     <RootNamespace>Friday.iOS</RootNamespace>
@@ -134,7 +134,7 @@
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\Friday\Friday.csproj">
-      <Project>{26FCF886-2D09-4BCC-A0C1-9B1DAB752E1D}</Project>
+      <Project>{150E0E42-BD96-4FC0-9766-C58489C9541B}</Project>
       <Name>Friday</Name>
     </ProjectReference>
   </ItemGroup>

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FA399E4A-95B4-48F6-BCD6-C8473E1F6FD6}</ProjectGuid>
+    <ProjectGuid>{13200ACE-5533-46C3-AEA5-C07DD0325A41}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <RootNamespace>Friday.Droid</RootNamespace>
@@ -86,7 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Friday\Friday.csproj">
-      <Project>{26FCF886-2D09-4BCC-A0C1-9B1DAB752E1D}</Project>
+      <Project>{150E0E42-BD96-4FC0-9766-C58489C9541B}</Project>
       <Name>Friday</Name>
     </ProjectReference>
   </ItemGroup>

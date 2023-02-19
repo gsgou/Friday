@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Collections.Generic;
 using Friday.Dsp;
 
@@ -52,3 +53,4 @@ namespace Friday.Spectrum
         }
     }
 }
+*/

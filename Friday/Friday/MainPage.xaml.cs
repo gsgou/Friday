@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 using Friday.AudioPlayer;
 using Friday.Dsp;
 using Friday.Spectrum;
-using Plugin.FilePicker;
-using Plugin.FilePicker.Abstractions;
 using SkiaSharp.Views.Forms;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Friday
@@ -21,6 +20,7 @@ namespace Friday
         private IAudioProvider _audioProvider;
 
         private readonly FftSize fftSize = FftSize.Fft4096;
+
         public MainPage()
         {
             InitializeComponent();
@@ -41,13 +41,76 @@ namespace Friday
 
         private async Task OnLoadAsync()
         {
-            var fileData = await CrossFilePicker.Current.PickFile();
+            var audioFileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+                {
+                   { DevicePlatform.iOS, new[]
+                       {
+                           "public.audio",
+                           "public.mp3",
+                           "public.mpeg-4-audio",
+                           "com.apple.protected-​mpeg-4-audio",
+                           "public.ulaw-audio",
+                           "public.aifc-audio",
+                           "public.aiff-audio",
+                           "com.apple.coreaudio-​format",
+                           "com.microsoft.waveform-​audio",
+                           "aac",
+                           "aiff",
+                           "au",
+                           "caf",
+                           "flac",
+                           "m4a",
+                           "mp2",
+                           "mp3",
+                           "oga",
+                           "ogg",
+                           "opus",
+                           "spx",
+                           "wav",
+                           "wma"
+                       }
+                   },
+                   { DevicePlatform.Android, new[]
+                       {
+						   //"application/octet-stream", // caf and other audio extensions on some Android devices
+						   //"audio/*",
+                           "audio/aac",
+                           "audio/x-aac",
+                           "audio/ac3",
+                           "audio/aiff",
+                           "audio/x-aiff",
+                           "audio/basic",
+                           "audio/x-caf",
+                           "audio/flac",
+                           "audio/x-flac",
+                           "audio/x-matroska",
+                           "audio/m4a",
+                           "audio/x-m4a",
+                           "audio/mpeg",
+                           "audio/mp3",
+                           "audio/mpeg3",
+                           "audio/x-mpeg-3",
+                           "audio/ogg",
+                           "audio/ogg; codecs=opus",
+                           "application/x-ogg",
+                           "audio/wav",
+                           "audio/x-wav",
+                           "audio/x-ms-wma"
+                       }
+                   },
+                });
+            var pickOptions = new PickOptions
+            {
+                PickerTitle = "Select your audio",
+                FileTypes = audioFileTypes
+            };
+            var fileData = await FilePicker.PickAsync(pickOptions);
 
             if (fileData == null) return;
 
             fileNameLabel.Text = fileData.FileName;
 
-            _audioProvider.CurrentPlayingFile = fileData.FilePath;
+            _audioProvider.CurrentPlayingFile = fileData.FullPath;
 
             if (_audioProvider.IsPlaying)
                 _audioProvider.Stop();
@@ -77,8 +140,5 @@ namespace Friday
                 _lineSpectrum.CreateSpectrumLine(e.Surface, size);
             }
         }
-
     }
-
-
 }

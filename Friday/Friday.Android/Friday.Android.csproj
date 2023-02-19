@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Forms">
-      <Version>3.0.0.446417</Version>
+      <Version>5.0.0.2545</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Essentials">
       <Version>1.7.5</Version>
